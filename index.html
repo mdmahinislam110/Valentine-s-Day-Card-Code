@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Card</title>
+<link rel="stylesheet" href="style.css">
+
+<!-- html2canvas for download -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+<!-- Input Names -->
+<div class="input-box">
+    <input type="text" id="yourName" placeholder="Your Name">
+    <input type="text" id="crushName" placeholder="Crush Name">
+    <button onclick="startLove()">Start ❤️</button>
+</div>
+
+<!-- Card -->
+<div class="wrapper" id="cardArea">
+    <div class="card3d" id="card3d">
+        
+        <!-- Front -->
+        <div class="front">
+            💌 Click to Open
+        </div>
+
+        <!-- Back -->
+        <div class="back">
+            <h2 id="title"></h2>
+            <p id="typing"></p>
+        </div>
+
+    </div>
+</div>
+
+<button class="download" onclick="downloadCard()">📥 Download</button>
+
+<script>
+function startLove(){
+    let your = document.getElementById("yourName").value;
+    let crush = document.getElementById("crushName").value;
+
+    document.getElementById("title").innerText =
+        your + " ❤️ " + crush;
+
+    document.getElementById("card3d").classList.add("flip");
+
+    typeText(crush);
+}
+
+// ⌨️ Typing animation
+function typeText(name){
+    let text = "From the moment I saw you, " + name + ", I fell in love 💖";
+    let i = 0;
+
+    let typing = setInterval(()=>{
+        document.getElementById("typing").innerHTML += text.charAt(i);
+        i++;
+        if(i >= text.length) clearInterval(typing);
+    }, 50);
+}
+
+// 📥 Download
+function downloadCard(){
+    html2canvas(document.getElementById("cardArea")).then(canvas=>{
+        let link = document.createElement("a");
+        link.download = "love-card.png";
+        link.href = canvas.toDataURL();
+        link.click();
+    });
+}
+
+// Flip on click
+document.getElementById("card3d").onclick = ()=>{
+    document.getElementById("card3d").classList.toggle("flip");
+}
+</script>
+
+</body>
+</html>
